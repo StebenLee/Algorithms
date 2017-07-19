@@ -1,3 +1,5 @@
+//Easy
+
 1. first
 
 public class Solution {
