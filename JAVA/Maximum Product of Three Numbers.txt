@@ -1,0 +1,77 @@
+1. first
+
+public class Solution {
+    public int maximumProduct(int[] nums) {
+        Arrays.sort(nums);
+        int l = nums.length-1;
+        if(nums[0] == 0 && nums[l] == 0 ) {
+          return 0;
+        }
+        else if(nums[l]<0) {
+          return nums[l-2] * nums[l-1] * nums[l];
+        }
+        else if(nums[l] == 0) {
+          int lastnum = l;
+          while(nums[lastnum]==0){
+            lastnum--;
+          }
+          return nums[lastnum-2] * nums[lastnum-1] * nums[lastnum];
+        } else {
+          if(nums[0]*nums[1]*nums[l] > nums[l]*nums[l-1]*nums[l-2]) {
+              return nums[0]*nums[1]*nums[l];
+          } else {
+              return nums[l]*nums[l-1]*nums[l-2];
+          }
+        }
+        
+    }
+}
+
+33ms time O(nlogn)=>mainly caused by arrays.sort in java / space O(n) 
+
+2. Math.max();
+
+public class Solution {
+  public int maximumProduct(int[] nums) {
+  Arrays.sort(nums);
+  return Math.max(nums[0] * nums[1] * nums[nums.length - 1], nums[nums.length-1] * nums[nums.length - 2] * nums[nums.length -3]);
+  }
+}
+
+O(nlogn)
+
+3. single scan
+
+
+public class Solution {
+    public int maximumProduct(int[] nums) {
+      int min1 = Integer.MAX_VALUE, min2 = Integer.MAX_VALUE;
+      int max1 = Integer.MIN_VALUE, max2 = Integer.MIN_VALUE, max3 = Integer.MIN_VALUE;
+
+      for (int n : nums) {
+          if (n < min1) {
+            min2 = min1;
+            min1 = n;
+          } else if (n < min2) {
+            min2 = n;
+          }
+          
+          if (n > max1) {
+            max3 = max2;
+            max2 = max1;
+            max1 = n;
+          } else if (n > max2) {
+            max3 = max2;
+            max2 = n;
+          } else if (n > max3) {
+            max3 = n; 
+          }
+      }
+        
+    return Math.max(min1*min2*max1, max1*max2*max3);
+
+        
+    }
+}
+
+14ms time O(n) / space O(1)
